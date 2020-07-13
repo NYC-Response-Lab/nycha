@@ -20,7 +20,7 @@ PATTERNS = [('location', '^Location: (.*?)'),
             ('department', '^Administering Department: (.*?)'),
             ('source', '^Funding Source: (.*?)'),
             ('amount', '^Amount: (.*?)'),
-            ('hires', '^Projected Section 3 Hires: (.*?)'),
+            ('hires', '^Projected Section 3 Hires: (.*?)$'),
         #    ('awardee', '\n.*?responsible bidder, (.*? (?:Corporation|Corp\.|LLC|Inc|L\.L\.C))')
          ]
 FIELDS = [k[0] for k in PATTERNS]
