@@ -18,12 +18,22 @@ for doc in $DOCS; do curl $doc -o ${doc##*/}; done
 
 for file in *.pdf
 do
-  echo convert -density 300  $file  -depth 8 -strip -background white -alpha off ${file%.pdf}-%03d.tiff
+  echo "Processing " $file
+  filename=${file%.pdf}
+  echo "Dealing with " $filename
+  convert -density 300  $file  -depth 8 -strip -background white -alpha off $filename-%03d.tiff
+  for page in $filename-???.tiff; do tesseract $page ${page%.tiff}; done
+  cat $filename-*.txt > $filename.txt
+  rm $filename-???.tiff
+  rm $filename-???.txt
+  echo "Done with " $file
 done
 
-
-file=board_meeting_minutes_04292020
-# Do OCR on all the pages
-for page in $file-???.tiff; do tesseract $page ${page%.tiff}; done
-
-cat $file-*.txt > $file.txt
+for file in *.txt
+do 
+  filename=${file%.txt}
+  echo "Processing " $filename
+  cat $filename.txt | python process_single_file.py
+  mv output.csv $filename.csv
+  echo "Done processing " $filename
+done
